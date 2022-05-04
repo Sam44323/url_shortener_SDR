@@ -9,6 +9,9 @@ class User {
   name: string
 
   @prop({ required: true, type: String })
+  password: string
+
+  @prop({ required: true, type: String })
   email: string
 
   @prop({ required: true, type: String })

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import UsersModel from '../models/users.models'
+import errorCreator from '../utils/error'
 
 const test = async (_req: Request, res: Response) => {
   res.status(200).json({
@@ -7,7 +8,9 @@ const test = async (_req: Request, res: Response) => {
   })
 }
 
-const addUser = async (req: Request, res: Response) => {}
+const addUser = async (req: Request, res: Response) => {
+  const { name, password, email } = req.body
+}
 
 const getUserDetails = async (req: Request, res: Response) => {}
 
