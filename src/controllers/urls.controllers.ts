@@ -51,8 +51,58 @@ const generate = async (req: Request, res: Response) => {
   }
 }
 
-const getTinyUrl = async (req: Request, res: Response) => {}
+const getTinyUrl = async (req: Request, res: Response) => {
+  const { url_id } = req.params
+  try {
+    const urlObject = await UrlModel.findById(url_id)
+    if (!urlObject) {
+      return res.status(404).json({
+        message: 'Url not found'
+      })
+    }
+    res.status(302).json({
+      message: 'Url Data. redirecting...',
+      url: `http://localhost:${process.env.PORT || 3001}${urlObject.short_url}`,
+      original_url: urlObject.long_url
+    })
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({
+      message: 'Error getting url'
+    })
+  }
+}
 
-const deleteTinyUrl = async (req: Request, res: Response) => {}
+const deleteTinyUrl = async (req: Request, res: Response) => {
+  const { url_id } = req.params
+  const { api_key } = req.params
+  try {
+    const user = await UsersModel.findOne({ api_key })
+    if (!user) {
+      return res.status(401).json({
+        message: 'Invalid api key'
+      })
+    }
+    const urlObject = await UrlModel.findById(url_id)
+    if (urlObject.user_id.toString() !== user._id.toString()) {
+      return res.status(401).json({
+        message: 'Unauthorized'
+      })
+    } else if (!urlObject) {
+      return res.status(404).json({
+        message: 'Url not found'
+      })
+    }
+    await urlObject.remove()
+    res.status(200).json({
+      message: 'Url deleted successfully'
+    })
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({
+      message: 'Error deleting url'
+    })
+  }
+}
 
 export { test, generate, getTinyUrl, deleteTinyUrl }
