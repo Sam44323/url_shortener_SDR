@@ -17,7 +17,7 @@ class User {
   @prop({ required: true, type: String })
   creation_date: string
 
-  @prop({ type: Array })
+  @prop({ type: Array, default: [] })
   url_ids: mongoose.Schema.Types.ObjectId[]
 }
 
