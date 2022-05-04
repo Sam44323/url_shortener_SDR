@@ -10,6 +10,11 @@ const test = async (_req: Request, res: Response) => {
 
 const addUser = async (req: Request, res: Response) => {
   const { name, password, email } = req.body
+  if (!name || !password || !email || !email.includes('@')) {
+    return res.status(400).json({
+      message: 'Invalid data!'
+    })
+  }
 }
 
 const getUserDetails = async (req: Request, res: Response) => {}
