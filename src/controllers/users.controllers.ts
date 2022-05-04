@@ -7,4 +7,12 @@ const test = async (_req: Request, res: Response) => {
   })
 }
 
-export { test }
+const addUser = async (req: Request, res: Response) => {}
+
+const updateUser = async (req: Request, res: Response) => {}
+
+const refreshToken = async (req: Request, res: Response) => {}
+
+const deleteUser = async (req: Request, res: Response) => {}
+
+export { test, addUser, updateUser, refreshToken, deleteUser }
