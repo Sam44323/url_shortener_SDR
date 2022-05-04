@@ -6,6 +6,10 @@ import Logger from './src/utils/logger'
 import mongoose from 'mongoose'
 import rateLimit from 'express-rate-limit'
 
+// routes
+import userRouter from './src/routes/users.routes'
+import urlRouter from './src/routes/urls.routes'
+
 // configs
 const limiter = rateLimit({
   max: 100,
@@ -40,6 +44,10 @@ connection.on('error', (err: any) => {
 connection.on('disconnected', () => {
   Logger.info('🔌 Mongoose default connection to DB disconnected')
 })
+
+// connecting the routes to the app
+app.use('/api/users', userRouter)
+app.use('/api/urls', urlRouter)
 
 app.use(
   (
