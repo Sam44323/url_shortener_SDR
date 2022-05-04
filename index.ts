@@ -6,8 +6,6 @@ import Logger from './src/utils/logger'
 import mongoose from 'mongoose'
 
 // routes
-import adminRouter from './src/routes/admin.routes'
-import userRouter from './src/routes/signupUsers.routes'
 
 dotenv.config()
 
@@ -36,9 +34,6 @@ connection.on('error', (err: any) => {
 connection.on('disconnected', () => {
   Logger.info('🔌 Mongoose default connection to DB disconnected')
 })
-
-app.use('/api/admin', adminRouter)
-app.use('/api/user', userRouter)
 
 app.use(
   (
