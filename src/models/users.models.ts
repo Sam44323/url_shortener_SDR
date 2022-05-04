@@ -1,6 +1,6 @@
 import { prop, getModelForClass } from '@typegoose/typegoose'
 
-class Users {
+class User {
   @prop({ required: true, type: String })
   api_key: string
 
@@ -14,5 +14,5 @@ class Users {
   creation_date: string
 }
 
-const UsersModel = getModelForClass(Users)
+const UsersModel = getModelForClass(User)
 export default UsersModel
