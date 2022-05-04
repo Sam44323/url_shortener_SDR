@@ -143,6 +143,30 @@ const refreshToken = async (req: Request, res: Response) => {
   }
 }
 
-const deleteUser = async (req: Request, res: Response) => {}
+const deleteUser = async (req: Request, res: Response) => {
+  const { api_key } = req.headers
+  if (!api_key) {
+    return res.status(400).json({
+      message: 'Invalid data!'
+    })
+  }
+  try {
+    const user = await UsersModel.findOne({ api_key })
+    if (!user) {
+      return res.status(400).json({
+        message: 'User not found!'
+      })
+    }
+    await user.remove()
+    return res.status(200).json({
+      message: 'User deleted successfully!'
+    })
+  } catch (err) {
+    console.log(err)
+    return res.status(500).json({
+      message: 'Something went wrong!'
+    })
+  }
+}
 
 export { test, getUserDetails, addUser, updateUser, refreshToken, deleteUser }
