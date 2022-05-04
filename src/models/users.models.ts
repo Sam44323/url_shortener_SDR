@@ -1,4 +1,5 @@
 import { prop, getModelForClass } from '@typegoose/typegoose'
+import mongoose from 'mongoose'
 
 class User {
   @prop({ required: true, type: String })
@@ -12,6 +13,9 @@ class User {
 
   @prop({ required: true, type: String })
   creation_date: string
+
+  @prop({ type: Array })
+  url_ids: mongoose.Schema.Types.ObjectId[]
 }
 
 const UsersModel = getModelForClass(User)
