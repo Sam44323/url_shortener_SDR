@@ -3,11 +3,23 @@ import UrlModel from '../models/urls.models'
 import UsersModel from '../models/users.models'
 import { Base64 } from 'js-base64'
 
+/**
+ * @description: This function is used to test the uptime of url controller
+ * @param _req the request for the controller
+ * @param res the response for the controller
+ */
+
 const test = async (_req: Request, res: Response) => {
   res.status(200).json({
     message: 'Url controller works!'
   })
 }
+
+/**
+ * @description: This function is used to generate a new short url/redirect for an existing url
+ * @param req the request for the controller
+ * @param res the response for the controller
+ */
 
 const generate = async (req: Request, res: Response) => {
   const { url } = req.body
@@ -51,8 +63,14 @@ const generate = async (req: Request, res: Response) => {
   }
 }
 
+/**
+ * @description: This function is used to fetch the url details based on url_id
+ * @param req the request for the controller
+ * @param res the response for the controller
+ */
+
 const getTinyUrl = async (req: Request, res: Response) => {
-  const { url_id } = req.params
+  const { url_id } = req.body
   try {
     const urlObject = await UrlModel.findById(url_id)
     if (!urlObject) {
@@ -72,6 +90,12 @@ const getTinyUrl = async (req: Request, res: Response) => {
     })
   }
 }
+
+/**
+ * @description: This function is used to delete an existing short_url details
+ * @param req the request for the controller
+ * @param res the response for the controller
+ */
 
 const deleteTinyUrl = async (req: Request, res: Response) => {
   const { url_id } = req.params

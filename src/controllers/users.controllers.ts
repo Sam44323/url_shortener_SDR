@@ -1,8 +1,13 @@
 import { Request, Response } from 'express'
 import UsersModel from '../models/users.models'
-import errorCreator from '../utils/error'
 import bcrypt from 'bcrypt'
 import totp from 'totp-generator'
+
+/**
+ * @description: This function is used to test the uptime of user_controller
+ * @param _req the request for the controller
+ * @param res the response for the controller
+ */
 
 const test = async (_req: Request, res: Response) => {
   res.status(200).json({
@@ -10,8 +15,16 @@ const test = async (_req: Request, res: Response) => {
   })
 }
 
+/**
+ * @description: This function is used for adding a new_user
+ * @param req the request for the controller
+ * @param res the response for the controller
+ */
+
 const addUser = async (req: Request, res: Response) => {
   const { name, password, email } = req.body
+
+  // if the inputs are not valid
   if (!name || !password || !email || !email.includes('@')) {
     return res.status(400).json({
       message: 'Invalid data!'
@@ -24,6 +37,8 @@ const addUser = async (req: Request, res: Response) => {
         message: 'User already exists!'
       })
     }
+
+    // initializing a new user_object
     user = new UsersModel({
       email,
       name,
@@ -33,7 +48,7 @@ const addUser = async (req: Request, res: Response) => {
       }),
       creation_date: new Date().toISOString()
     })
-    await user.save()
+    await user.save() // saving the user
     return res.status(200).json({
       message: 'User created successfully!',
       data: {
@@ -49,8 +64,16 @@ const addUser = async (req: Request, res: Response) => {
   }
 }
 
+/**
+ * @description: This function is used for getting the user_details
+ * @param req the request for the controller
+ * @param res the response for the controller
+ */
+
 const getUserDetails = async (req: Request, res: Response) => {
   const { api_key } = req.headers
+
+  // if the api_key is empty
   if (!api_key) {
     return res.status(400).json({
       message: 'Invalid data!'
@@ -59,6 +82,7 @@ const getUserDetails = async (req: Request, res: Response) => {
   try {
     const user = await UsersModel.findOne({ api_key })
     if (!user) {
+      // user is not valid
       return res.status(400).json({
         message: 'User not found!'
       })
@@ -81,10 +105,18 @@ const getUserDetails = async (req: Request, res: Response) => {
   }
 }
 
+/**
+ * @description: This function is used to update the user_details
+ * @param req the request for the controller
+ * @param res the response for the controller
+ */
+
 const updateUser = async (req: Request, res: Response) => {
   const { name, password, email } = req.body
   const { api_key } = req.headers
-  if (!api_key || !name || !password || !email || !email.includes('@')) {
+
+  // checking the validity of the payloads
+  if (!api_key) {
     return res.status(400).json({
       message: 'Invalid data!'
     })
@@ -92,14 +124,17 @@ const updateUser = async (req: Request, res: Response) => {
   try {
     const user = await UsersModel.findOne({ api_key })
     if (!user) {
+      // if the user doesn't exist
       return res.status(400).json({
         message: 'User not found!'
       })
     }
-    user.name = name
-    user.password = await bcrypt.hash(password, 10)
-    user.email = email
-    await user.save()
+
+    // updating the user
+    user.name = name ? name : user.name
+    user.password = password ? await bcrypt.hash(password, 10) : user.password
+    user.email = email ? email : user.email
+    await user.save() // saving the updated_user
     return res.status(200).json({
       message: 'User updated successfully!'
     })
@@ -110,6 +145,12 @@ const updateUser = async (req: Request, res: Response) => {
     })
   }
 }
+
+/**
+ * @description: This function is used to refresh the api_token for an user
+ * @param req the request for the controller
+ * @param res the response for the controller
+ */
 
 const refreshToken = async (req: Request, res: Response) => {
   const { api_key } = req.headers
@@ -127,8 +168,8 @@ const refreshToken = async (req: Request, res: Response) => {
     }
     user.api_key = totp(process.env.TOTP_SECRET, {
       digits: 18
-    })
-    await user.save()
+    }) // generating a new api_key
+    await user.save() // saving the updated_data
     return res.status(200).json({
       message: 'Token refreshed successfully!',
       data: {
@@ -143,6 +184,12 @@ const refreshToken = async (req: Request, res: Response) => {
   }
 }
 
+/**
+ * @description: This function is used to delete an user
+ * @param req the request for the controller
+ * @param res the response for the controller
+ */
+
 const deleteUser = async (req: Request, res: Response) => {
   const { api_key } = req.headers
   if (!api_key) {
@@ -153,11 +200,12 @@ const deleteUser = async (req: Request, res: Response) => {
   try {
     const user = await UsersModel.findOne({ api_key })
     if (!user) {
+      // checking the existence of the user
       return res.status(400).json({
         message: 'User not found!'
       })
     }
-    await user.remove()
+    await user.remove() // deleting the user
     return res.status(200).json({
       message: 'User deleted successfully!'
     })
