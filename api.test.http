@@ -1,0 +1,4 @@
+### Testing the uptime for server
+
+curl -X GET \
+  'http://localhost:3001/api/user/test'
