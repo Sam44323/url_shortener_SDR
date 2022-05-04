@@ -4,13 +4,19 @@ import cors from 'cors'
 import helmet from 'helmet'
 import Logger from './src/utils/logger'
 import mongoose from 'mongoose'
+import rateLimit from 'express-rate-limit'
 
-// routes
-
+// configs
+const limiter = rateLimit({
+  max: 100,
+  windowMs: 60 * 60 * 1000,
+  message: 'Too many requests! Please try again in an hour.'
+})
 dotenv.config()
 
 const app = express()
 app.use(express.json())
+app.use(limiter)
 app.use(cors())
 app.use(helmet())
 
