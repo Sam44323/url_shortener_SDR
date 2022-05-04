@@ -49,7 +49,37 @@ const addUser = async (req: Request, res: Response) => {
   }
 }
 
-const getUserDetails = async (req: Request, res: Response) => {}
+const getUserDetails = async (req: Request, res: Response) => {
+  const { api_key } = req.body
+  if (!api_key) {
+    return res.status(400).json({
+      message: 'Invalid data!'
+    })
+  }
+  try {
+    const user = await UsersModel.findOne({ api_key })
+    if (!user) {
+      return res.status(400).json({
+        message: 'User not found!'
+      })
+    }
+    return res.status(200).json({
+      message: 'User found!',
+      data: {
+        api_key: user.api_key,
+        name: user.name,
+        email: user.email,
+        creation_date: user.creation_date,
+        url_ids: user.url_ids
+      }
+    })
+  } catch (err) {
+    console.log(err)
+    return res.status(500).json({
+      message: 'Something went wrong!'
+    })
+  }
+}
 
 const updateUser = async (req: Request, res: Response) => {}
 
