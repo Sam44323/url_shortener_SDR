@@ -8,7 +8,6 @@ const test = async (_req: Request, res: Response) => {
     message: 'Url controller works!'
   })
 }
-
 const generate = async (req: Request, res: Response) => {
   const { url } = req.body
   const { api_key } = req.headers
