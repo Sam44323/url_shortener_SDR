@@ -34,6 +34,7 @@ const generate = async (req: Request, res: Response) => {
     }
     const urlObject = await UrlModel.findOne({ url })
     if (urlObject) {
+      // if the url is already in the database, return the short url with redirection
       return res.status(302).json({
         message: 'Url already exists, redirecting...',
         url: `http://localhost:${process.env.PORT || 3001}${
@@ -42,14 +43,16 @@ const generate = async (req: Request, res: Response) => {
         original_url: url.original_url
       })
     }
+
+    // creating a new object for short_url
     const shortUrl = await UrlModel.create({
       long_url: url,
       user_id: user._id,
       short_url: Base64.encode(url)
     })
     await shortUrl.save()
-    user.url_ids.push(shortUrl._id)
-    await user.save()
+    user.url_ids.push(shortUrl._id) // adding the url_id to the user_object
+    await user.save() // updating the user_data
     res.status(200).json({
       message: 'Url generated successfully',
       url: `http://localhost:${process.env.PORT || 3001}${shortUrl.short_url}`,
@@ -78,6 +81,8 @@ const getTinyUrl = async (req: Request, res: Response) => {
         message: 'Url not found'
       })
     }
+
+    // returning the url data with redirection order
     res.status(302).json({
       message: 'Url Data. redirecting...',
       url: `http://localhost:${process.env.PORT || 3001}${urlObject.short_url}`,
@@ -101,7 +106,7 @@ const deleteTinyUrl = async (req: Request, res: Response) => {
   const { url_id } = req.params
   const { api_key } = req.params
   try {
-    const user = await UsersModel.findOne({ api_key })
+    const user = await UsersModel.findOne({ api_key }) // checking the authenticity of the api_key
     if (!user) {
       return res.status(401).json({
         message: 'Invalid api key'
@@ -109,15 +114,17 @@ const deleteTinyUrl = async (req: Request, res: Response) => {
     }
     const urlObject = await UrlModel.findById(url_id)
     if (urlObject.user_id.toString() !== user._id.toString()) {
+      // checking the user_id of the url_id with the curr_user_id to check the eligibility for deletion of the requested url
       return res.status(401).json({
         message: 'Unauthorized'
       })
     } else if (!urlObject) {
+      // if the url is not found, with the id
       return res.status(404).json({
         message: 'Url not found'
       })
     }
-    await urlObject.remove()
+    await urlObject.remove() // removing the url
     res.status(200).json({
       message: 'Url deleted successfully'
     })
