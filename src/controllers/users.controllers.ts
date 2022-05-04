@@ -111,7 +111,37 @@ const updateUser = async (req: Request, res: Response) => {
   }
 }
 
-const refreshToken = async (req: Request, res: Response) => {}
+const refreshToken = async (req: Request, res: Response) => {
+  const { api_key } = req.headers
+  if (!api_key) {
+    return res.status(400).json({
+      message: 'Invalid data!'
+    })
+  }
+  try {
+    const user = await UsersModel.findOne({ api_key })
+    if (!user) {
+      return res.status(400).json({
+        message: 'User not found!'
+      })
+    }
+    user.api_key = totp(process.env.TOTP_SECRET, {
+      digits: 18
+    })
+    await user.save()
+    return res.status(200).json({
+      message: 'Token refreshed successfully!',
+      data: {
+        api_key: user.api_key
+      }
+    })
+  } catch (err) {
+    console.log(err)
+    return res.status(500).json({
+      message: 'Something went wrong!'
+    })
+  }
+}
 
 const deleteUser = async (req: Request, res: Response) => {}
 
