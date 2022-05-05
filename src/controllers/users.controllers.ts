@@ -37,14 +37,12 @@ const addUser = async (req: Request, res: Response) => {
         message: 'User already exists!'
       })
     }
-    const api_key = uuidApi.create() // generating a new api_key
     // initializing a new user_object
     user = new UsersModel({
-      _id: api_key.uuid,
       email,
       name,
       password: await bcrypt.hash(password, 10),
-      api_key: api_key.apiKey,
+      api_key: uuidApi.create().apiKey,
       creation_date: new Date().toISOString()
     })
     await user.save() // saving the user
