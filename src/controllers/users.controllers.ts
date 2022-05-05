@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import UsersModel from '../models/users.models'
 import bcrypt from 'bcrypt'
-import totp from 'totp-generator'
+import uuidApi from 'uuid-apikey'
 
 /**
  * @description: This function is used to test the uptime of user_controller
@@ -37,17 +37,14 @@ const addUser = async (req: Request, res: Response) => {
         message: 'User already exists!'
       })
     }
-
-    console.log(process.env.TOTP_SECRET)
-
+    const api_key = uuidApi.create() // generating a new api_key
     // initializing a new user_object
     user = new UsersModel({
+      _id: api_key.uuid,
       email,
       name,
       password: await bcrypt.hash(password, 10),
-      api_key: totp(process.env.TOTP_SECRET, {
-        digits: 18
-      }),
+      api_key: api_key.apiKey,
       creation_date: new Date().toISOString()
     })
     await user.save() // saving the user
@@ -168,9 +165,8 @@ const refreshToken = async (req: Request, res: Response) => {
         message: 'User not found!'
       })
     }
-    user.api_key = totp(process.env.TOTP_SECRET, {
-      digits: 18
-    }) // generating a new api_key
+    const refresh_key = uuidApi.create() // generating a new api_key
+    user.api_key = refresh_key.apiKey // updating the api_key
     await user.save() // saving the updated_data
     return res.status(200).json({
       message: 'Token refreshed successfully!',

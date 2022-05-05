@@ -42,6 +42,7 @@
     "mongoose": "^6.2.7",
     "randomstring": "^1.2.2",
     "totp-generator": "^0.0.13",
+    "uuid-apikey": "^1.5.3",
     "winston": "^3.6.0"
   }
 }
