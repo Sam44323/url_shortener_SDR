@@ -38,6 +38,8 @@ const addUser = async (req: Request, res: Response) => {
       })
     }
 
+    console.log(process.env.TOTP_SECRET)
+
     // initializing a new user_object
     user = new UsersModel({
       email,
