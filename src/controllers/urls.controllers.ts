@@ -73,9 +73,9 @@ const generate = async (req: Request, res: Response) => {
  */
 
 const getTinyUrl = async (req: Request, res: Response) => {
-  const { url_id } = req.body
+  const { long_url } = req.body
   try {
-    const urlObject = await UrlModel.findById(url_id)
+    const urlObject = await UrlModel.findById({ long_url: long_url })
     if (!urlObject) {
       return res.status(404).json({
         message: 'Url not found'
