@@ -36,3 +36,9 @@
 - **Tslint**
 
 ---
+
+**Please follow the following links for the respective tasks:**
+[Setup]("https://github.com/Sam44323/url_shortener_SDR/blob/main/docs/Setup.md")
+[Assumption regarding the API and System-designs]("https://github.com/Sam44323/url_shortener_SDR/blob/main/docs/Assumptions.md")
+
+---
