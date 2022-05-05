@@ -41,6 +41,6 @@
 
 Setup for the repo - **[Setup](docs/Setup.md)**
 
-Assumption regarding the API and - **System-designs[Assumptions](docs/Assumptions.md)**
+Assumption regarding the API and System-designs - **[Assumptions](docs/Assumptions.md)**
 
 ---
