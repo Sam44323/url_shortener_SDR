@@ -48,7 +48,7 @@ const generate = async (req: Request, res: Response) => {
     const shortUrl = await UrlModel.create({
       long_url: url,
       user_id: user._id,
-      short_url: Base64.encode(url)
+      short_url: Base64.encode(url).slice(0, 8)
     })
     await shortUrl.save()
     user.url_ids.push(shortUrl._id) // adding the url_id to the user_object
