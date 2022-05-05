@@ -39,8 +39,8 @@
 
 **Please follow the following links for the respective tasks:**
 
-### Setup for the repo [Setup]("https://github.com/Sam44323/url_shortener_SDR/blob/main/docs/Setup.md")
+Setup for the repo **[Setup]("docs/Setup.md")**
 
-### Assumption regarding the API and System-designs[Assumptions]("https://github.com/Sam44323/url_shortener_SDR/blob/main/docs/Assumptions.md")
+Assumption regarding the API and **System-designs[Assumptions]("docs/Assumptions.md")**
 
 ---
