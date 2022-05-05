@@ -105,8 +105,8 @@ const getTinyUrl = async (req: Request, res: Response) => {
  */
 
 const deleteTinyUrl = async (req: Request, res: Response) => {
-  const { url_id } = req.params
-  const { api_key } = req.params
+  const { long_url } = req.body
+  const { api_key } = req.headers
   try {
     const user = await UsersModel.findOne({ api_key }) // checking the authenticity of the api_key
     if (!user) {
@@ -114,7 +114,7 @@ const deleteTinyUrl = async (req: Request, res: Response) => {
         message: 'Invalid api key'
       })
     }
-    const urlObject = await UrlModel.findById(url_id)
+    const urlObject = await UrlModel.findOne({ long_url: long_url }) // fetching the url details
     if (urlObject.user_id.toString() !== user._id.toString()) {
       // checking the user_id of the url_id with the curr_user_id to check the eligibility for deletion of the requested url
       return res.status(401).json({
