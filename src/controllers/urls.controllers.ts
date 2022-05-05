@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import UrlModel from '../models/urls.models'
 import UsersModel from '../models/users.models'
 import { Base64 } from 'js-base64'
+import Logger from '../utils/logger'
 
 /**
  * @description: This function is used to test the uptime of url controller
@@ -59,7 +60,7 @@ const generate = async (req: Request, res: Response) => {
       original_url: url.original_url
     })
   } catch (err) {
-    console.log(err)
+    Logger.error(`❌${err}`)
     res.status(500).json({
       message: 'Error generating url'
     })
@@ -91,7 +92,7 @@ const getTinyUrl = async (req: Request, res: Response) => {
       original_url: urlObject.long_url
     })
   } catch (err) {
-    console.log(err)
+    Logger.error(`❌${err}`)
     res.status(500).json({
       message: 'Error getting url'
     })
@@ -126,12 +127,17 @@ const deleteTinyUrl = async (req: Request, res: Response) => {
         message: 'Url not found'
       })
     }
+    user.url_ids = user.url_ids.filter(
+      (item) => item.toString() !== urlObject._id.toString()
+    ) // removing the url_id from the user_object
+
+    await user.save() // updating the user_data
     await urlObject.remove() // removing the url
     res.status(200).json({
       message: 'Url deleted successfully'
     })
   } catch (err) {
-    console.log(err)
+    Logger.error(`❌${err}`)
     res.status(500).json({
       message: 'Error deleting url'
     })
