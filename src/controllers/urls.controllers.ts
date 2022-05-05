@@ -37,7 +37,7 @@ const generate = async (req: Request, res: Response) => {
       // if the url is already in the database, return the short url with redirection
       return res.status(302).json({
         message: 'Url already exists, redirecting...',
-        url: `http://localhost:${process.env.PORT || 3001}${
+        url: `http://localhost:${process.env.PORT || 3001}/${
           urlObject.short_url
         }`,
         original_url: url.original_url
@@ -55,7 +55,7 @@ const generate = async (req: Request, res: Response) => {
     await user.save() // updating the user_data
     res.status(200).json({
       message: 'Url generated successfully',
-      url: `http://localhost:${process.env.PORT || 3001}${shortUrl.short_url}`,
+      url: `http://localhost:${process.env.PORT || 3001}/${shortUrl.short_url}`,
       original_url: url.original_url
     })
   } catch (err) {
@@ -85,7 +85,9 @@ const getTinyUrl = async (req: Request, res: Response) => {
     // returning the url data with redirection order
     res.status(302).json({
       message: 'Url Data. redirecting...',
-      url: `http://localhost:${process.env.PORT || 3001}${urlObject.short_url}`,
+      url: `http://localhost:${process.env.PORT || 3001}/${
+        urlObject.short_url
+      }`,
       original_url: urlObject.long_url
     })
   } catch (err) {
