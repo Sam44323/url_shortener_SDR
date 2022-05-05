@@ -2420,11 +2420,6 @@ json5@^2.1.2:
   dependencies:
     minimist "^1.2.5"
 
-jssha@^3.1.2:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/jssha/-/jssha-3.2.0.tgz#88ec50b866dd1411deaddbe6b3e3692e4c710f16"
-  integrity sha512-QuruyBENDWdN4tZwJbQq7/eAK85FqrI4oDbXjy5IBhYD+2pTJyBUWZe8ctWaCkrV0gy6AaelgOZZBMeswEa/6Q==
-
 kareem@2.3.4:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/kareem/-/kareem-2.3.4.tgz#b38c436fb4758775d919b2828b4009db59b52694"
@@ -3312,13 +3307,6 @@ toidentifier@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.1.tgz#3be34321a88a820ed1bd80dfaa33e479fbb8dd35"
   integrity sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==
-
-totp-generator@^0.0.13:
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/totp-generator/-/totp-generator-0.0.13.tgz#0ad9572814b9b196f05d52b4ef74dac67d335977"
-  integrity sha512-/Sg4eXvaLfaXNJJWv/OLPQm1GVKQXOe6mbDNXFBRZdYnaN9iY6Grk6uPYLph9MDn+cGn6GLNaqpak34jfu1CQQ==
-  dependencies:
-    jssha "^3.1.2"
 
 touch@^3.1.0:
   version "3.1.0"
