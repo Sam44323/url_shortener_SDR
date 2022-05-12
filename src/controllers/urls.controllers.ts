@@ -67,6 +67,25 @@ const generate = async (req: Request, res: Response) => {
   }
 }
 
+const redirectUrl = async (req: Request, res: Response) => {
+  const { code } = req.params
+  try {
+    const urlObject = await UrlModel.findOne({ short_url: code })
+    if (!urlObject) {
+      return res.status(404).json({
+        message: 'Url not found'
+      })
+    }
+
+    res.redirect(urlObject.long_url)
+  } catch (err) {
+    Logger.error(`❌${err}`)
+    res.status(500).json({
+      message: 'Error getting url'
+    })
+  }
+}
+
 /**
  * @description: This function is used to fetch the url details based on url_id
  * @param req the request for the controller
@@ -144,4 +163,4 @@ const deleteTinyUrl = async (req: Request, res: Response) => {
   }
 }
 
-export { test, generate, getTinyUrl, deleteTinyUrl }
+export { test, generate, redirectUrl, getTinyUrl, deleteTinyUrl }

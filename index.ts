@@ -9,6 +9,7 @@ import rateLimit from 'express-rate-limit'
 // routes
 import userRouter from './src/routes/users.routes'
 import urlRouter from './src/routes/urls.routes'
+import { redirectUrl } from './src/controllers/urls.controllers'
 
 // configs
 const limiter = rateLimit({
@@ -48,6 +49,7 @@ connection.on('disconnected', () => {
 // connecting the routes to the app
 app.use('/api/users', userRouter)
 app.use('/api/urls', urlRouter)
+app.use('/:code', redirectUrl)
 
 app.use(
   (
