@@ -35,7 +35,6 @@ const generate = async (req: Request, res: Response) => {
     }
     const urlObject = await UrlModel.findOne({ url })
     if (urlObject) {
-      // if the url is already in the database, return the short url with redirection
       return res.status(302).json({
         message: 'Url already exists, redirecting...',
         url: `http://localhost:${process.env.PORT || 3001}/${
