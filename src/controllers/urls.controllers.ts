@@ -67,6 +67,12 @@ const generate = async (req: Request, res: Response) => {
   }
 }
 
+/**
+ * @description: This function is used to redirect the user
+ * @param req the request for the controller
+ * @param res the response for the controller
+ */
+
 const redirectUrl = async (req: Request, res: Response) => {
   const { code } = req.params
   try {
