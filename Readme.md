@@ -8,7 +8,7 @@
 ![Node](https://img.shields.io/badge/-Node.JS-333333?style=for-the-badge&logo=node.js&logoColor=61dbfb)
 ![Express](https://img.shields.io/badge/-Express-333333?style=for-the-badge&logo=express&logoColor=61dbfb)
 
-**This repo contains the code for the short-url system_design backend**
+**This very repo contains the code for the short-url system_design backend**
 
 ---
 
